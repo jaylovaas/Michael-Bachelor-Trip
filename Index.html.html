@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Myrtle Beach Bachelor Party Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+// Initialize map
+var map = L.map('map').setView([33.695, -78.890], 12);
+
+// Add tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Layer groups
+var golfLayer = L.layerGroup().addTo(map);
+var airbnbLayer = L.layerGroup().addTo(map);
+var restaurantLayer = L.layerGroup().addTo(map);
+var barLayer = L.layerGroup().addTo(map);
+
+// === Golf Courses ===
+var golfCourses = [
+  {name: "Pine Lakes Country Club", lat: 33.73201, lng: -78.84307, cost: "$110", link: "https://pinelakes.com"},
+  {name: "Arcadian Shores Golf Club", lat: 33.778378, lng: -78.77562, cost: "$70", link: "https://arcadianshoresgolf.com/"},
+  {name: "Barefoot Resort – Love Course", lat: 33.806914, lng: -78.7552065, cost: "$170", link: "https://barefootgolf.com/"},
+  {name: "Grande Dunes Resort Club", lat: 33.7670833, lng: -78.8193168, cost: "$170", link: "https://www.grandedunesgolf.com/"},
+  {name: "Caledonia Golf & Fish Club", lat: 33.4524407, lng: -79.1576019, cost: "$170", link: "https://caledoniagolfandfishclub.com/"},
+  {name: "True Blue", lat: 33.4432408, lng: -79.1463815, cost: "$140", link: "https://caledoniagolfandfishclub.com/"},
+  {name: "Kings North", lat: 33.7918488, lng: -78.9661488, cost: "$100", link: "https://www.myrtlebeachnational.com/"}
+];
+golfCourses.forEach(function(gc){
+  L.marker([gc.lat, gc.lng])
+    .bindPopup(`<b>${gc.name}</b><br>Cost: ${gc.cost}<br><a href="${gc.link}" target="_blank">View Details</a>`)
+    .addTo(golfLayer);
+});
+
+// === Airbnbs ===
+var airbnbs = [
+  {name: "Home 1", lat: 33.604917, lng: -78.9737726, rating: "$1,579", link: "https://www.airbnb.com/rooms/804419078173831283?source_impression_id=p3_1767036242_P3IqfCHkAtzpSA9_"},
+  {name: "Home 2", lat: 33.5986733, lng: -78.9803708, rating: "$1,486", link: "https://www.airbnb.com/rooms/1424237239073475349?adults=9&check_in=2026-02-26&check_out=2026-03-01"},
+  {name: "Home 3", lat: 33.6938895, lng: -78.9553007, rating: "$2,156", link: "https://www.airbnb.com/rooms/1086836027494820806?adults=9&check_in=2026-02-26&check_out=2026-03-01"},
+  {name: "Home 4", lat: 33.5906667, lng: -79.0161369, rating: "$1,940", link: "https://www.airbnb.com/rooms/987707581746559209?adults=9&check_in=2026-02-26&check_out=2026-03-01"},
+  {name: "Home 5", lat: 33.7024763, lng: -78.8683329, rating: "$1,656", link: "https://www.airbnb.com/rooms/1572680737754345639?adults=9&check_in=2026-02-26&check_out=2026-03-01"},
+  {name: "Home 6", lat: 33.6435104, lng: -78.9385261, rating: "$2,100", link: "https://www.airbnb.com/rooms/1382737131296432285?adults=9&check_in=2026-02-26&check_out=2026-03-01"},
+  {name: "Home 7", lat: 33.6410949, lng: -78.9380855, rating: "$2,686", link: "https://www.airbnb.com/rooms/21151611?adults=9&check_in=2026-02-26&check_out=2026-03-01"}
+];
+airbnbs.forEach(function(ab){
+  L.marker([ab.lat, ab.lng], {icon: L.icon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/69/69524.png', iconSize:[25,25]})})
+    .bindPopup(`<b>${ab.name}</b><br>Price: ${ab.rating}<br><a href="${ab.link}" target="_blank">Book Now</a>`)
+    .addTo(airbnbLayer);
+});
+
+// === Restaurants ===
+var restaurants = [
+  {name: "Sun City Cafe", lat: 33.6935446, lng: -78.8876984, cost: "$", link: "http://suncitycafemb.com/"},
+  {name: "Drift", lat: 33.7621001, lng: -78.8189151, cost: "$", link: "https://drifteatery.com/"},
+  {name: "21 Main At North Beach", lat: 33.7954204, lng: -78.7446089, cost: "$$$$", link: "http://www.21mainatnorthbeach.com/"},
+  {name: "Hook & Barrel", lat: 33.7483874, lng: -78.8321301, cost: "$$$", link: "https://www.tripadvisor.com/Restaurants-g54359-zfp58-Myrtle_Beach_South_Carolina.html"},
+  {name: "Hard Rock Cafe Myrtle Beach", lat: 33.7174556, lng: -78.8840331, cost: "$", link: "https://www.hardrockcafe.com/location/myrtle-beach/"},
+  {name: "Margaritaville", lat: 33.7174556, lng: -78.8840331, cost: "$", link: "https://www.margaritavillemyrtlebeach.com/"}
+];
+restaurants.forEach(function(r){
+  L.marker([r.lat, r.lng], {icon: L.icon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png', iconSize:[25,25]})})
+    .bindPopup(`<b>${r.name}</b><br>Cost: ${r.cost}<br><a href="${r.link}" target="_blank">Menu</a>`)
+    .addTo(restaurantLayer);
+});
+
+// === Bars ===
+var bars = [
+  {name: "RipTydz Oceanfront Grille & Rooftop Bar", lat: 33.6948714, lng: -78.8761795, link: "http://riptydz.com/"},
+  {name: "Tin Roof", lat: 34.7730653, lng: -91.8048413, link: "https://www.tinroofmyrtlebeach.com/"},
+  {name: "The Landing at The Boathouse", lat: 33.7130486, lng: -78.9276717, link: "http://landingmb.com/"},
+  {name: "Pine Lakes Tavern", lat: 33.7261748, lng: -78.8466592, link: "http://www.pinelakestavern.com/"},
+  {name: "Ocean Annie’s Beach Bar", lat: 33.7594103, lng: -78.7923576, link: "http://www.oceanannies.com/"},
+  {name: "The Bowery", lat: 33.6921013, lng: -78.8819794, link: "https://thebowery.com/"},
+  {name: "8th Ave Tiki Bar & Grill", lat: 33.6905728, lng: -78.8834544, link: "https://8thavetiki.com/"},
+  {name: "LandShark Bar & Grill", lat: 33.6906113, lng: -78.9014791, link: "https://www.landsharkbarandgrill.com/"},
+  {name: "Wet Willie’s", lat: 33.5521662, lng: -79.832193, link: "https://www.wetwillies.com/"},
+  {name: "Scotty's Beach Bar", lat: 33.6042815, lng: -78.9753563, link: "https://www.facebook.com/ScottysOceanfrontBeachBar/"},
+  {name: "Surfside Freddie's", lat: 33.6016564, lng: -78.9944948, link: ""},
+  {name: "Surfside Charlies", lat: 33.606878, lng: -78.9907339, link: "http://www.surfsidecharlies.com/"},
+  {name: "Tidal Creek Brewhouse", lat: 33.6702595, lng: -78.9438062, link: "https://tidalcreekbrewhouse.com/"}
+];
+bars.forEach(function(b){
+  L.marker([b.lat, b.lng], {icon: L.icon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/1046/1046784.png', iconSize:[25,25]})})
+    .bindPopup(`<b>${b.name}</b><br><a href="${b.link}" target="_blank">Website</a>`)
+    .addTo(barLayer);
+});
+
+// Layer control
+L.control.layers(null, {
+  "Golf Courses": golfLayer,
+  "Airbnbs": airbnbLayer,
+  "Restaurants": restaurantLayer,
+  "Bars": barLayer
+}).addTo(map);
+</script>
+</body>
+</html>
